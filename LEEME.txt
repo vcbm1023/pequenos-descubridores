@@ -1,0 +1,12 @@
+PEQUEÑOS DESCUBRIDORES
+
+Cómo usar:
+1. Descomprime la carpeta.
+2. Abre index.html en Chrome, Edge o Safari desde el celular o computador.
+3. Toca una categoría y luego una tarjeta para escuchar la palabra.
+
+El juego funciona sin instalar aplicaciones ni conexión a internet una vez descargado.
+La voz usa la función de lectura del navegador/dispositivo; la voz disponible depende del equipo.
+Para una experiencia más cómoda en Android, abre index.html con Chrome y sube el volumen multimedia.
+
+Consejo: acompaña al niño mientras juega y úsalo en sesiones cortas.

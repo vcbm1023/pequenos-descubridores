@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "Pequeños Descubridores",
+  "short_name": "Descubridores",
+  "description": "Juego infantil para aprender colores, números, vocales, palabras, animales y partes del cuerpo.",
+  "lang": "es-CL",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f8ff",
+  "theme_color": "#2878d0",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

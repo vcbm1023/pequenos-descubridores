@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#2878d0">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>Pequeños Descubridores</title>
+<style>
+:root{--blue:#2878d0;--navy:#174b83;--green:#45b96b;--bg:#f2f8ff;--ink:#24415e}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);user-select:none}
+header{background:linear-gradient(135deg,#2878d0,#55a5ed);color:white;text-align:center;padding:18px 14px 20px;border-radius:0 0 26px 26px}
+header h1{margin:0;font-size:clamp(24px,6vw,34px)} header p{margin:5px 0 0;font-size:15px}
+main{max-width:850px;margin:auto;padding:14px}
+.welcome{background:white;border-radius:20px;padding:14px;text-align:center;box-shadow:0 4px 14px #1b5b9515;margin:14px 0}
+.welcome strong{color:var(--blue)} .menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.category{border:0;border-radius:20px;padding:15px 8px;background:white;box-shadow:0 4px 12px #1b5b9518;min-height:124px;color:var(--ink);font:inherit;font-weight:800;font-size:17px;touch-action:manipulation}
+.category:active,.tile:active{transform:scale(.97)} .category .emoji{display:block;font-size:42px;margin-bottom:6px}
+.category small{display:block;font-weight:500;font-size:12px;color:#66809a;margin-top:3px}
+.topbar{display:flex;align-items:center;gap:10px;margin:8px 0 14px}
+.back,.sound{border:0;border-radius:14px;padding:11px 15px;background:#e1efff;color:var(--navy);font-weight:800;font-size:16px}
+.section-title{flex:1;text-align:center;font-size:21px;font-weight:900}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{border:0;border-radius:20px;min-height:148px;background:white;box-shadow:0 4px 12px #1b5b9518;padding:12px 8px;color:var(--ink);font:inherit;touch-action:manipulation}
+.tile .pic{font-size:clamp(42px,12vw,64px);line-height:1.2;display:block}
+.tile .word{display:block;font-size:22px;font-weight:900;margin-top:7px}
+.tile .hint{font-size:12px;color:#66809a}
+.color-dot{width:58px;height:58px;border-radius:50%;display:block;margin:6px auto;border:3px solid #e8eef5}
+.footer{text-align:center;color:#6c849b;font-size:12px;padding:18px 8px}
+.hidden{display:none!important}
+.big-card{background:white;border-radius:24px;padding:20px;text-align:center;box-shadow:0 4px 14px #1b5b9515}
+.big-card .pic{font-size:100px}.big-card h2{font-size:34px;margin:8px}.big-card p{font-size:18px}
+.action{background:var(--green);color:white;border:0;border-radius:18px;padding:15px 22px;font-size:20px;font-weight:900;margin:8px}
+@media(min-width:600px){.menu,.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.tile{min-height:170px}}
+</style>
+</head>
+<body>
+<header><h1>🌈 Pequeños Descubridores</h1><p>¡Toca, mira y escucha!</p></header>
+<main>
+<section id="home">
+ <div class="welcome">¡Hola, peque! 👋<br><strong>Elige un tema</strong> y toca las tarjetas para aprender.</div>
+ <div class="menu" id="menu"></div>
+ <div class="footer">Un juego para explorar jugando · Ideal para acompañar a niñas y niños pequeños</div>
+</section>
+<section id="lesson" class="hidden">
+ <div class="topbar"><button class="back" onclick="goHome()">← Inicio</button><div class="section-title" id="lessonTitle"></div><button class="sound" onclick="say('¡Muy bien!')">🔊</button></div>
+ <div class="grid" id="cards"></div>
+ <div class="footer">Toca una imagen para escuchar su nombre. ¡Puedes tocarla todas las veces que quieras!</div>
+</section>
+<section id="detail" class="hidden">
+ <div class="topbar"><button class="back" onclick="backToLesson()">← Volver</button><div class="section-title">¡Aprendamos!</div></div>
+ <div class="big-card"><div class="pic" id="detailPic"></div><h2 id="detailWord"></h2><p id="detailExtra"></p><button class="action" onclick="repeatCurrent()">🔊 Escuchar otra vez</button></div>
+</section>
+</main>
+<script>
+const lessons = [
+ {id:'colors',name:'Colores',emoji:'🎨',sub:'Descubre los colores',items:[
+  ['🔴','Rojo','red'],['🔵','Azul','blue'],['🟡','Amarillo','#ffd43b'],['🟢','Verde','#48bd68'],['🟠','Naranjo','#ff922b'],['🟣','Morado','#9b6bce'],['⚫','Negro','#333333'],['⚪','Blanco','#ffffff'],['🩷','Rosado','#ff9fbd'],['🟤','Café','#95613e']]},
+ {id:'numbers',name:'Números',emoji:'🔢',sub:'Cuenta del 1 al 10',items:[
+  ['1️⃣','Uno','1'],['2️⃣','Dos','2'],['3️⃣','Tres','3'],['4️⃣','Cuatro','4'],['5️⃣','Cinco','5'],['6️⃣','Seis','6'],['7️⃣','Siete','7'],['8️⃣','Ocho','8'],['9️⃣','Nueve','9'],['🔟','Diez','10']]},
+ {id:'vowels',name:'Vocales',emoji:'🔤',sub:'A, E, I, O, U',items:[
+  ['🅰️','A','A de avión'],['🅴','E','E de estrella'],['ℹ️','I','I de isla'],['⭕','O','O de oso'],['🦄','U','U de uva']]},
+ {id:'words',name:'Palabras',emoji:'💬',sub:'Palabras sencillas',items:[
+  ['❤️','Mamá','Mamá'],['👨','Papá','Papá'],['🏠','Casa','Casa'],['⚽','Pelota','Pelota'],['☀️','Sol','Sol'],['🌙','Luna','Luna'],['💧','Agua','Agua'],['🍎','Manzana','Manzana'],['🚗','Auto','Auto'],['👋','Hola','Hola']]},
+ {id:'animals',name:'Animales',emoji:'🐶',sub:'Animales domésticos',items:[
+  ['🐶','Perro','El perro hace guau guau'],['🐱','Gato','El gato hace miau'],['🐰','Conejo','Conejo'],['🐹','Hámster','Hámster'],['🐦','Pájaro','El pájaro canta'],['🐢','Tortuga','Tortuga'],['🐠','Pez','Pez'],['🐔','Gallina','La gallina hace clo clo'],['🦆','Pato','El pato hace cuac cuac'],['🐴','Caballo','El caballo hace hii'] ]},
+ {id:'body',name:'Mi cuerpo',emoji:'🧒',sub:'Conoce tu cuerpo',items:[
+  ['🙂','Cabeza','Esta es mi cabeza'],['💇','Pelo','Este es mi pelo'],['👀','Ojos','Estos son mis ojos'],['👂','Orejas','Estas son mis orejas'],['👃','Nariz','Esta es mi nariz'],['👄','Boca','Esta es mi boca'],['🦷','Dientes','Estos son mis dientes'],['✋','Manos','Estas son mis manos'],['🦵','Piernas','Estas son mis piernas'],['🦶','Pies','Estos son mis pies']]}
+];
+let currentLesson=null,currentItem=null;
+const menu=document.getElementById('menu');
+lessons.forEach(l=>{let b=document.createElement('button');b.className='category';b.innerHTML=`<span class="emoji">${l.emoji}</span>${l.name}<small>${l.sub}</small>`;b.onclick=()=>openLesson(l.id);menu.appendChild(b)});
+function say(text){
+ if(!('speechSynthesis' in window)){alert('Este navegador no tiene lectura en voz alta. Prueba con Chrome.');return}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='es-CL';u.rate=.82;u.pitch=1.08;speechSynthesis.speak(u);
+}
+function openLesson(id){
+ currentLesson=lessons.find(x=>x.id===id);document.getElementById('home').classList.add('hidden');document.getElementById('detail').classList.add('hidden');document.getElementById('lesson').classList.remove('hidden');
+ document.getElementById('lessonTitle').textContent=currentLesson.name;const area=document.getElementById('cards');area.innerHTML='';
+ currentLesson.items.forEach((it,i)=>{const b=document.createElement('button');b.className='tile';
+ let pic=it[0]==='🔴'||it[0]==='🔵'||it[0]==='🟡'||it[0]==='🟢'||it[0]==='🟠'||it[0]==='🟣'||it[0]==='⚫'||it[0]==='⚪'||it[0]==='🩷'||it[0]==='🟤'?`<span class="color-dot" style="background:${it[2]};"></span>`:`<span class="pic">${it[0]}</span>`;
+ b.innerHTML=`${pic}<span class="word">${it[1]}</span><span class="hint">Tócame 🔊</span>`;b.onclick=()=>openDetail(it);area.appendChild(b)});
+ say(currentLesson.name);
+}
+function openDetail(item){currentItem=item;document.getElementById('lesson').classList.add('hidden');document.getElementById('detail').classList.remove('hidden');document.getElementById('detailPic').textContent=item[0];document.getElementById('detailWord').textContent=item[1];document.getElementById('detailExtra').textContent=item[2]&&currentLesson.id!=='colors'&&currentLesson.id!=='numbers'&&currentLesson.id!=='vowels'?item[2]:'';repeatCurrent()}
+function repeatCurrent(){if(!currentItem)return;let spoken=currentItem[1];if(currentLesson.id==='vowels')spoken=currentItem[1]+'. '+currentItem[2];else if(currentLesson.id==='animals'||currentLesson.id==='body')spoken=currentItem[2];say(spoken)}
+function backToLesson(){document.getElementById('detail').classList.add('hidden');document.getElementById('lesson').classList.remove('hidden')}
+function goHome(){speechSynthesis?.cancel();document.getElementById('lesson').classList.add('hidden');document.getElementById('detail').classList.add('hidden');document.getElementById('home').classList.remove('hidden')}
+</script>
+<script>
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
+}
+</script>
+</body></html>

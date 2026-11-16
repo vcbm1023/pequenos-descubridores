@@ -1,0 +1,19 @@
+PEQUEÑOS DESCUBRIDORES – VERSIÓN INSTALABLE (PWA)
+
+Esta carpeta incluye el juego, iconos de aplicación, manifiesto y caché sin conexión.
+
+IMPORTANTE:
+Para que Android permita instalarlo como aplicación con icono y abrirlo a pantalla completa,
+la primera publicación debe estar alojada en una dirección HTTPS. Una vez abierto e instalado,
+el juego queda guardado en el teléfono y puede funcionar sin conexión.
+
+INSTALACIÓN EN ANDROID:
+1. Publica el contenido de esta carpeta en un alojamiento HTTPS (por ejemplo, un sitio web estático).
+2. Abre esa dirección desde Google Chrome en el teléfono.
+3. Pulsa el menú ⋮ y elige “Instalar aplicación” o “Añadir a pantalla de inicio”.
+4. Confirma. Aparecerá el icono “Descubridores” en la pantalla del teléfono.
+5. Abre desde ese icono; se mostrará como app, sin la barra del navegador.
+
+No es todavía un APK publicado en Play Store. Para Play Store se necesita empaquetar la app para Android,
+probarla, firmarla y completar la publicación con una cuenta de desarrollador.
+La voz se genera con el motor de voz del dispositivo y puede variar según el teléfono.
